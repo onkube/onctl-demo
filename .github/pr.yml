@@ -1,0 +1,27 @@
+name: ontest-pr
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: onctl
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install ontest
+        run: |
+          curl -sL https://github.com/onkube/homebrew-tap/releases/download/v0.0.27/ontest-linux-amd64.tar.gz
+          tar -xzf ontest-linux-amd64.tar.gz
+          sudo mv ontest /usr/local/bin
+      - name: ls
+        run: |
+          ontest ls

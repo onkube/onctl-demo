@@ -16,7 +16,7 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install ontest
         run: |
           wget https://github.com/onkube/homebrew-tap/releases/download/v0.0.27/ontest-linux-amd64.tar.gz
@@ -31,8 +31,9 @@ jobs:
           AWS_DEFAULT_REGION: eu-central-1
       - name: deploy
         run: |
-          cd /home/runner/work/ontest-demo/ontest-demo
-          ontest deploy
+          cd $GITHUB_WORKSPACE
+          ls -al
+          # ontest deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

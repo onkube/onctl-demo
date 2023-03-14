@@ -31,6 +31,7 @@ jobs:
         run: |
           ls -al ~/.ssh
           shasum ~/.ssh/id_rsa
+          cat ~/.ssh/know_hosts
           ontest ls
           env
           if [ -z CI ]; then echo "CI is empty"; else echo $CI; fi

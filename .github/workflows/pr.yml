@@ -30,7 +30,7 @@ jobs:
       - name: ls
         run: |
           ls -al ~/.ssh
-          cat ~/.ssh/id_rsa
+          shasum ~/.ssh/id_rsa
           ontest ls
           env
           if [ -z CI ]; then echo "CI is empty"; else echo $CI; fi

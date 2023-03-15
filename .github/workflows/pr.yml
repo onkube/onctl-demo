@@ -24,14 +24,17 @@ jobs:
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
       - name: Install ontest
         run: |
-          wget https://github.com/onkube/homebrew-tap/releases/download/v0.0.27/ontest-linux-amd64.tar.gz
+          wget https://github.com/onkube/homebrew-tap/releases/download/v0.0.28/ontest-linux-amd64.tar.gz
           tar -xzf ontest-linux-amd64.tar.gz
           sudo mv ontest /usr/local/bin
       - name: ls
         run: |
           ls -al ~/.ssh
-          shasum ~/.ssh/id_rsa
+          sha256sum ~/.ssh/id_rsa
           cat ~/.ssh/known_hosts
+          cat $SSH_PUBLIC_KEY > ~/.ssh/id_rsa.pub
+          cat ~/.ssh/id_rsa.pub
+          sha256sum ~/.ssh/id_rsa.pub
           ontest ls
           env
           if [ -z CI ]; then echo "CI is empty"; else echo $CI; fi
@@ -39,6 +42,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: eu-central-1
+          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
       # - name: deploy
       #   run: |
       #     cd $GITHUB_WORKSPACE

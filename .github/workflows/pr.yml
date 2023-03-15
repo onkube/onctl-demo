@@ -45,6 +45,7 @@ jobs:
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
       - name: deploy
         run: |
+          set -ex
           cd $GITHUB_WORKSPACE
           ls -al
           docker info

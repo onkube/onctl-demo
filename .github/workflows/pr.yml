@@ -47,7 +47,8 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           ls -al
-          sudo apt update && apt install -y docker.io docker-compose 
+          docker info
+          docker compose 
           ontest deploy -p 8080 -i init.sh
           ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
           cat ~/.ssh/known_hosts

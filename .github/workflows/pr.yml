@@ -47,15 +47,13 @@ jobs:
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
       - name: deploy
         run: |
-          set -ex
           cd $GITHUB_WORKSPACE
-          ls -al
-          docker info
-          docker compose 
-          ontest deploy -p 8080 -i init.sh
+          ontest deploy -p 80 -i init.sh
+          cat ontest-deploy.json
           ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
           DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d
-          gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
+          # gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
+          gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat ontest-deploy.json | jq -r '.public_url')"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

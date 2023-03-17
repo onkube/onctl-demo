@@ -51,9 +51,10 @@ jobs:
           docker info
           docker compose 
           # ontest deploy -p 8080 -i init.sh
-          ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
+          # ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
           # cat ~/.ssh/known_hosts
           # DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d
+          echo "127.0.0.1" > ip.txt
           echo github.event.number = ${{ github.event.number  }}
           echo github.event.pull_request.number = ${{ github.event.pull_request.number }}
           echo github.event.issue.number = ${{ github.event.issue.number }}

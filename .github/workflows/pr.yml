@@ -52,14 +52,9 @@ jobs:
           ls -al
           docker info
           docker compose 
-          # ontest deploy -p 8080 -i init.sh
-          # ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
-          # cat ~/.ssh/known_hosts
-          # DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d
-          echo "127.0.0.1" > ip.txt
-          echo github.event.number = ${{ github.event.number  }}
-          echo github.event.pull_request.number = ${{ github.event.pull_request.number }}
-          echo github.event.issue.number = ${{ github.event.issue.number }}
+          ontest deploy -p 8080 -i init.sh
+          ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
+          DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d
           gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

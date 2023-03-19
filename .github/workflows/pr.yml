@@ -9,8 +9,6 @@ on:
 jobs:
   build-image:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: onctl
 
     permissions:
       contents: read

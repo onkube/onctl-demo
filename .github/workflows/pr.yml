@@ -26,7 +26,7 @@ jobs:
         run: |
           # wget https://github.com/onkube/homebrew-tap/releases/download/v0.0.31/ontest-linux-amd64.tar.gz
           # tar -xzf ontest-linux-amd64.tar.gz
-          wget https://github.com/onkube/ontest/releases/download/r0.0.31-1/ontest
+          wget https://github.com/onkube/homebrew-tap/releases/download/test/ontest
           sudo mv ontest /usr/local/bin
           ontest version
       - name: ls

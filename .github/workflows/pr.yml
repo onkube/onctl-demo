@@ -53,7 +53,7 @@ jobs:
           ls -al
           cat ontest-deploy.json
           ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
-          DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d
+          DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d --build
           # gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
           gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat ontest-deploy.json | jq -r '.public_url')"
         env:

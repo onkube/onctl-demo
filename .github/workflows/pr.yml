@@ -47,6 +47,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           ONTEST_LOG=DEBUG ontest deploy -p 80 -i init.sh -t t3.small
+          ls -al
           cat ontest-deploy.json
           ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
           DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d

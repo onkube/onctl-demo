@@ -45,6 +45,7 @@ jobs:
           ontest ls
           env
           if [ -z CI ]; then echo "CI is empty"; else echo $CI; fi
+          echo ${{ github.event.action }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

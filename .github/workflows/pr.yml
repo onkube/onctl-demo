@@ -51,6 +51,7 @@ jobs:
           AWS_DEFAULT_REGION: eu-central-1
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
       - name: deploy
+        if: github.event.pull_request.merged == 'false' or github.event.pull_request.merged == 'null'
         run: |
           cd $GITHUB_WORKSPACE
           ONTEST_LOG=DEBUG ontest deploy -p 80 -i init.sh -t t3.small
@@ -60,6 +61,16 @@ jobs:
           DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d --build
           # gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
           gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat ontest-deploy.json | jq -r '.public_url')"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: eu-central-1
+          GH_TOKEN: ${{ github.token }}
+      - name: destroy
+        if: github.event.pull_request.merged == 'true'
+        run: |
+          cd $GITHUB_WORKSPACE
+          ONTEST_LOG=DEBUG ontest delete self
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

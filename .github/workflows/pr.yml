@@ -51,7 +51,7 @@ jobs:
           AWS_DEFAULT_REGION: eu-central-1
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
       - name: deploy
-        if: github.event.pull_request.merged != 'true'
+        if: github.event.pull_request.action != 'closed'
         run: |
           cd $GITHUB_WORKSPACE
           ONTEST_LOG=DEBUG ontest deploy -p 80 -i init.sh -t t3.small
@@ -67,7 +67,7 @@ jobs:
           AWS_DEFAULT_REGION: eu-central-1
           GH_TOKEN: ${{ github.token }}
       - name: destroy
-        if: github.event.pull_request.merged == 'true'
+        if: github.event.pull_request.action == 'closed'
         run: |
           cd $GITHUB_WORKSPACE
           ONTEST_LOG=DEBUG ontest delete self

@@ -8,7 +8,7 @@ on:
 
 
 jobs:
-  build-image:
+  preview-env:
     runs-on: ubuntu-latest
 
     permissions:

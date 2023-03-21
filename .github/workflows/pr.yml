@@ -22,32 +22,21 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+          known_hosts: 'dummy'
       - name: Install ontest
         run: |
-          # wget https://github.com/onkube/homebrew-tap/releases/download/v0.0.33/ontest-linux-amd64.tar.gz
-          # tar -xzf ontest-linux-amd64.tar.gz
-          # chmod +x ontest
-          # sudo mv ontest /usr/local/bin/ontest
-          wget https://github.com/onkube/homebrew-tap/releases/download/test/ontest-linux
-          chmod +x ontest-linux
-          sudo mv ontest-linux /usr/local/bin/ontest
+          wget https://github.com/onkube/homebrew-tap/releases/download/v0.0.33/ontest-linux-amd64.tar.gz
+          tar -xzf ontest-linux-amd64.tar.gz
+          chmod +x ontest
+          sudo mv ontest /usr/local/bin/ontest
+          # wget https://github.com/onkube/homebrew-tap/releases/download/test/ontest-linux
+          # chmod +x ontest-linux
+          # sudo mv ontest-linux /usr/local/bin/ontest
 
           ontest version
       - name: ls
         run: |
-          ls -al ~/.ssh
-          sha256sum ~/.ssh/id_rsa
-          cat ~/.ssh/known_hosts
           echo $SSH_PUBLIC_KEY > ~/.ssh/id_rsa.pub
-          cat ~/.ssh/id_rsa.pub
-          sha256sum ~/.ssh/id_rsa.pub
-          ontest ls
-          env
-          if [ -z CI ]; then echo "CI is empty"; else echo $CI; fi
-          echo ${{ github.event.action }}
-          echo $GITHUB_EVENT_PATH
-          cat $GITHUB_EVENT_PATH
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -58,11 +47,8 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           ONTEST_LOG=DEBUG ontest deploy -p 80 -i init.sh -t t3.small
-          ls -al
-          cat ontest-deploy.json
           ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
           DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d --build
-          # gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
           gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat ontest-deploy.json | jq -r '.public_url')"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

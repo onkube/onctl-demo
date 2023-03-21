@@ -46,7 +46,7 @@ jobs:
         if: github.event.action != 'closed'
         run: |
           cd $GITHUB_WORKSPACE
-          ONTEST_LOG=DEBUG ontest deploy -p 80 -i init.sh -t t3.small
+          ONTEST_LOG=DEBUG ontest deploy -p 80
           ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
           DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d --build
           gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat ontest-deploy.json | jq -r '.public_url')"

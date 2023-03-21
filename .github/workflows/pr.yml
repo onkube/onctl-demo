@@ -25,7 +25,7 @@ jobs:
           known_hosts: 'dummy'
       - name: Install ontest
         run: |
-          wget https://github.com/onkube/homebrew-tap/releases/download/v0.0.33/ontest-linux-amd64.tar.gz
+          wget https://github.com/onkube/homebrew-tap/releases/download/v0.0.34/ontest-linux-amd64.tar.gz
           tar -xzf ontest-linux-amd64.tar.gz
           chmod +x ontest
           sudo mv ontest /usr/local/bin/ontest

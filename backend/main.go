@@ -20,7 +20,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	
 ~~!!Hello!!~~ from Docker
-~~ Hello from Hakan ~~
 
 `)
 }

@@ -50,6 +50,7 @@ jobs:
           echo $GITHUB_EVENT_PATH
           cat $GITHUB_EVENT_PATH
         env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: eu-central-1
@@ -66,6 +67,7 @@ jobs:
           # gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
           gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat onctl-deploy.json | jq -r '.public_url')"
         env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: eu-central-1
@@ -76,6 +78,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           ONCTL_LOG=DEBUG onctl delete self
         env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: eu-central-1

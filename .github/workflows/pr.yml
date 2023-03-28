@@ -1,4 +1,4 @@
-name: ontest-pr
+name: onctl-pr
 
 on:
   pull_request:

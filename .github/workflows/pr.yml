@@ -6,6 +6,8 @@ on:
       - main
     types: [opened, reopened, synchronize, closed]
 
+env:
+  CLOUD_PROVIDER: hetzner
 
 jobs:
   preview-env:

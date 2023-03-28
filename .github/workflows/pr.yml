@@ -32,8 +32,7 @@ jobs:
           wget https://github.com/onkube/homebrew-tap/releases/download/test/onctl-linux
           chmod +x onctl-linux
           sudo mv onctl-linux /usr/local/bin/onctl
-
-          ontest version
+          onctl version
       - name: ls
         run: |
           ls -al ~/.ssh
@@ -63,7 +62,7 @@ jobs:
           ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
           DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d --build
           # gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
-          gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat ontest-deploy.json | jq -r '.public_url')"
+          gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat onctl-deploy.json | jq -r '.public_url')"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

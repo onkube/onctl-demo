@@ -59,7 +59,7 @@ jobs:
         if: github.event.action != 'closed'
         run: |
           cd $GITHUB_WORKSPACE
-          ONCTL_LOG=DEBUG onctl deploy -p 80 -i init.sh -t t3.small
+          CLOUD_PROVIDER=hetzner ONCTL_LOG=DEBUG onctl deploy -p 80 -i init.sh -t t3.small
           ls -al
           cat onctl-deploy.json
           ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts

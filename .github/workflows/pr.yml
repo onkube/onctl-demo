@@ -59,12 +59,11 @@ jobs:
         if: github.event.action != 'closed'
         run: |
           cd $GITHUB_WORKSPACE
-          ONCTL_LOG=DEBUG onctl deploy -p 80 -i init.sh -t t3.small
+          CLOUD_PROVIDER=hetzner ONCTL_LOG=DEBUG onctl deploy -p 80 
           ls -al
           cat onctl-deploy.json
-          ssh-keyscan $(cat ip.txt) >> ~/.ssh/known_hosts
-          DOCKER_HOST=ssh://ubuntu@$(cat ip.txt) docker compose up -d --build
-          # gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to http://$(cat ip.txt):8080" 
+          ssh-keyscan $(cat onctl-deploy.json | jq -r '.public_ip') >> ~/.ssh/known_hosts
+          DOCKER_HOST=ssh://$(cat onctl-deploy.json | jq -r '.username')@$(cat onctl-deploy.json | jq -r '.public_ip') docker compose up -d --build
           gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat onctl-deploy.json | jq -r '.public_url')"
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}

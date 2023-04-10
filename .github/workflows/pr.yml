@@ -7,11 +7,11 @@ on:
     types: [opened, reopened, synchronize, closed]
 
 env:
-  CLOUD_PROVIDER: aws
+  CLOUD_PROVIDER: ${{ vars.CLOUD_PROVIDER }}}
   HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: eu-central-1
+  AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
   GH_TOKEN: ${{ github.token }}
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
         if: github.event.action != 'closed'
         run: |
           cd $GITHUB_WORKSPACE
-          CLOUD_PROVIDER=hetzner onctl deploy -p 80 
+          onctl deploy -p 80 
           ls -al
           cat onctl-deploy.json
           ssh-keyscan $(cat onctl-deploy.json | jq -r '.public_ip') >> ~/.ssh/known_hosts

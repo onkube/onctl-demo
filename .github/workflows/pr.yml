@@ -46,7 +46,7 @@ jobs:
           ls -al
           cat onctl-deploy.json
           ssh-keyscan $(cat onctl-deploy.json | jq -r '.public_ip') >> ~/.ssh/known_hosts
-          DOCKER_HOST=ssh://$(cat onctl-deploy.json | jq -r '.username')@$(cat onctl-deploy.json | jq -r '.public_ip') docker compose up -d --build
+          DOCKER_HOST=$(cat onctl-deploy.json | jq -r '.docker_host') docker compose up -d --build
           gh pr comment ${{ github.event.pull_request.number }} -b "Deployed to $(cat onctl-deploy.json | jq -r '.public_url')"
       - name: destroy
         if: github.event.action == 'closed'

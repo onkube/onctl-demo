@@ -37,7 +37,7 @@ jobs:
           chmod +x onctl
           sudo mv onctl /usr/local/bin/onctl
           onctl version
-          echo $SSH_PUBLIC_KEY > ~/.ssh/id_rsa.pub
+          echo ${{ secrets.SSH_PUBLIC_KEY }} > ~/.ssh/id_rsa.pub
       - name: deploy
         if: github.event.action != 'closed'
         run: |
